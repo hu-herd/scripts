@@ -1,0 +1,24 @@
+version: '3'
+services:
+    mongo:
+        image: "mongo"
+    api:
+        build: ../api
+        ports:
+            - 8080:80
+        volumes:
+            - ../api:/usr/src/app
+        environment:
+            - PORT=80
+            - JWT_ISSUER=${JWT_ISSUER}
+            - JWT_SECRET=${JWT_SECRET}
+            - FRONT_END_URL=localhost:3000
+            - MONGO_DB_URL=mongodb://mongo/herd
+    web:
+        build: ../web
+        ports:
+            - 3000:80
+        volumes:
+            - ../web:/usr/src/app
+        environment:
+            - PORT=80
